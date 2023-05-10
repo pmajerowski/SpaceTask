@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:latest
+
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_DATABASE=spacetaskdb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
