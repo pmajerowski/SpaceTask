@@ -3,6 +3,7 @@ package pl.majerowski.spacetask.task;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
@@ -20,8 +21,13 @@ public class TaskController {
     }
 
     @GetMapping
-    public Task getTask(@RequestParam String name) {
+    public Task getTaskByName(@RequestParam String name) {
         return taskRepository.findTaskByName(name);
+    }
+
+    @GetMapping
+    public Optional<Task> getTaskById(@RequestParam String id) {
+        return taskRepository.findById(id);
     }
 
     @PostMapping
