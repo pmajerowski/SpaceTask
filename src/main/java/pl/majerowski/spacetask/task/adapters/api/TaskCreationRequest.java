@@ -1,9 +1,11 @@
-package pl.majerowski.spacetask.task;
+package pl.majerowski.spacetask.task.adapters.api;
 
 import lombok.Setter;
+import pl.majerowski.spacetask.task.domain.model.TaskStatus;
+import pl.majerowski.spacetask.task.domain.model.Task;
 
 @Setter
-public class TaskDTO {
+public class TaskCreationRequest {
     private String name;
     private String description;
 
