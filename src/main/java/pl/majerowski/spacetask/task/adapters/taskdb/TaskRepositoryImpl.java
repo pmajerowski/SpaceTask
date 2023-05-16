@@ -26,7 +26,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Task findById(String taskId) {
-        return null;
+        return taskMongoRepository.findById(taskId).map(TaskDocument::asDomain).orElseThrow();
     }
 
     @Override
