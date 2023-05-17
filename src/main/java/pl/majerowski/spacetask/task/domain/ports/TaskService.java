@@ -26,4 +26,8 @@ public final class TaskService {
         taskRepository.insert(task);
     }
 
+    public void  delete(String taskId) {
+        taskRepository.delete(taskId);
+    }
+
 }

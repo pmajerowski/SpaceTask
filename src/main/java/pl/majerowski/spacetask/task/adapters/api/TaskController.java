@@ -22,13 +22,18 @@ public class TaskController {
     }
 
     @GetMapping
-    public Task getTaskById(@RequestParam String id) {
-        return taskService.findById(id);
+    public Task getTaskById(@RequestParam String taskId) {
+        return taskService.findById(taskId);
     }
 
     @PostMapping
     public void postTask(@RequestBody TaskCreationRequest taskCreationRequest) {
         Task task = taskCreationRequest.asDomain();
         taskService.insert(task);
+    }
+
+    @DeleteMapping
+    public void deleteTask(@RequestParam String taskId) {
+        taskService.delete(taskId);
     }
 }
