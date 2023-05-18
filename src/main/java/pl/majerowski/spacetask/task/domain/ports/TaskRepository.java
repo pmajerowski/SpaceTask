@@ -1,6 +1,5 @@
 package pl.majerowski.spacetask.task.domain.ports;
 
-import pl.majerowski.spacetask.task.domain.model.TaskStatus;
 import pl.majerowski.spacetask.task.domain.model.Task;
 
 import java.util.List;

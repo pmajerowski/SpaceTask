@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import pl.majerowski.spacetask.task.domain.model.Task;
 import pl.majerowski.spacetask.task.domain.model.TaskStatus;
 
+import java.time.Instant;
+
 @AllArgsConstructor
 @Getter
 @Document(collection = "tasks")
@@ -17,13 +19,15 @@ class TaskDocument {
     private String name;
     private String description;
     private TaskStatus status;
+    private Instant timestamp;
 
     static Task asDomain(TaskDocument taskDocument) {
         return new Task(
                 taskDocument.id,
                 taskDocument.name,
                 taskDocument.description,
-                taskDocument.status
+                taskDocument.status,
+                taskDocument.timestamp
         );
     }
 
@@ -32,7 +36,8 @@ class TaskDocument {
                 task.getId(),
                 task.getName(),
                 task.getDescription(),
-                task.getStatus()
+                task.getStatus(),
+                task.getTimestamp()
         );
     }
 }
