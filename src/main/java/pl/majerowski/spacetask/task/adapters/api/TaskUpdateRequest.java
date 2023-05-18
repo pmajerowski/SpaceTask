@@ -11,7 +11,7 @@ public class TaskUpdateRequest {
     private String id;
     private String name;
     private String description;
-    private TaskStatus taskStatus;
+    private TaskStatus status;
     private Instant timestamp;
 
     public Task asDomain() {
@@ -19,7 +19,7 @@ public class TaskUpdateRequest {
                 this.id,
                 this.name,
                 this.description,
-                this.taskStatus,
+                this.status,
                 this.timestamp
         );
     }

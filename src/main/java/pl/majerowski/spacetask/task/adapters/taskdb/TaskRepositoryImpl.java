@@ -39,4 +39,8 @@ public class TaskRepositoryImpl implements TaskRepository {
         taskMongoRepository.deleteById(taskId);
     }
 
+    @Override
+    public void update(Task task) {
+        taskMongoRepository.save(TaskDocument.asDocument(task));
+    }
 }
