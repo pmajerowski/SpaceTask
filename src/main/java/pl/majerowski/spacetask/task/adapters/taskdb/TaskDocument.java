@@ -12,7 +12,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Getter
 @Document(collection = "tasks")
-class TaskDocument {
+public class TaskDocument {
 
     @Id
     private String id;
@@ -21,7 +21,7 @@ class TaskDocument {
     private TaskStatus status;
     private Instant timestamp;
 
-    static Task asDomain(TaskDocument taskDocument) {
+    public static Task asDomain(TaskDocument taskDocument) {
         return new Task(
                 taskDocument.id,
                 taskDocument.name,
@@ -31,7 +31,7 @@ class TaskDocument {
         );
     }
 
-    static TaskDocument asDocument(Task task) {
+    public static TaskDocument asDocument(Task task) {
         return new TaskDocument(
                 task.getId(),
                 task.getName(),
