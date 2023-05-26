@@ -8,11 +8,13 @@ import org.testcontainers.containers.MongoDBContainer;
 public class MongoContainerInitializerTest {
 
     @ClassRule
-    public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4.2").withEnv("MONGO_INITDB_DATABASE","spacetaskdb");
+    public static MongoDBContainer mongoDBContainer =
+            new MongoDBContainer("mongo:4.4.2").withEnv("MONGO_INITDB_DATABASE","spacetaskdb");
 //            .withEnv("MONGO_INIT_ROOT_USERNAME","admin").withEnv("MONGO_INIT_ROOT_PASSWORD","admin");
 
     static {
         mongoDBContainer.start();
+        System.out.println("AAAAAQQQQQQQQQXXXXX : " + mongoDBContainer.getFirstMappedPort());
     }
 
     @DynamicPropertySource

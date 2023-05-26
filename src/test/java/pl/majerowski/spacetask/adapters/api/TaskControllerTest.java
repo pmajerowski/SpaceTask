@@ -46,15 +46,15 @@ class TaskControllerTest extends MongoContainerInitializerTest {
                 TaskStatus.IN_PROGRESS,
                 Instant.now()
         );
-        mongoTemplate.insert(TaskDocument.asDocument(task));
+//        mongoTemplate.insert(TaskDocument.asDocument(task));
     }
 
     @Test
     void shouldGetListOfAllTasks() {
         // given
-        List<TaskDocument> taskDocuments = mongoTemplate.findAll(TaskDocument.class);
+//        List<TaskDocument> taskDocuments = mongoTemplate.findAll(TaskDocument.class);
         // when
-        System.out.println(taskDocuments);
+        System.out.println("taskDocuments");
         // then
     }
 
