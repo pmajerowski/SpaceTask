@@ -80,8 +80,7 @@ class TaskControllerTest extends MongoTest {
         List<TaskDocument> tasks = mongoTemplate.findAll(TaskDocument.class);
         assertThat(tasks).hasSize(2);
         assertThat(tasks)
-                .satisfiesOnlyOnce(taskDocument -> assertThat(taskDocument.getStatus()).isEqualTo(TaskStatus.TO_DO))
-                .satisfiesOnlyOnce(taskDocument -> assertThat(taskDocument.getStatus()).isEqualTo(TaskStatus.IN_PROGRESS));
+                .allSatisfy(taskDocument -> assertThat(taskDocument.getStatus()).isEqualTo(TaskStatus.TO_DO));
     }
 
     @Test
