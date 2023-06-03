@@ -1,6 +1,5 @@
 package pl.majerowski.spacetask.task.domain.ports;
 
-import pl.majerowski.spacetask.task.domain.model.TaskStatus;
 import pl.majerowski.spacetask.task.domain.model.Task;
 
 import java.util.List;
@@ -14,4 +13,6 @@ public interface TaskRepository {
     void insert(Task task);
 
     void delete(String taskId);
+
+    void update(Task task);
 }

@@ -30,4 +30,8 @@ public final class TaskService {
         taskRepository.delete(taskId);
     }
 
+    public void update(Task task) {
+        taskRepository.update(task);
+    }
+
 }

@@ -32,6 +32,12 @@ public class TaskController {
         taskService.insert(task);
     }
 
+    @PutMapping
+    public void updateTask(@RequestBody TaskUpdateRequest taskUpdateRequest) {
+        Task task = taskUpdateRequest.asDomain();
+        taskService.update(task);
+    }
+
     @DeleteMapping
     public void deleteTask(@RequestParam String taskId) {
         taskService.delete(taskId);
