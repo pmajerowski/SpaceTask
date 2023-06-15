@@ -7,7 +7,7 @@ import pl.majerowski.spacetask.task.domain.model.TaskStatus;
 import java.time.Instant;
 
 @Setter
-public class TaskUpdateRequest {
+class TaskUpdateRequest {
     private String id;
     private String name;
     private String description;

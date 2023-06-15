@@ -91,15 +91,16 @@ class TaskControllerTest extends MongoTest {
         String url = UriComponentsBuilder.fromUriString("http://localhost:" + port + "/tasks")
                 .queryParam("taskId", TASK_ID)
                 .toUriString();
-        Task toUpdate = restTemplate.getForObject(url, Task.class);
-
         String newName = "test updated name";
         String newDescription = "test updated description";
 
-        // when
-        toUpdate.setName(newName);
-        toUpdate.setDescription(newDescription);
+        TestTaskUpdateRequest toUpdate = new TestTaskUpdateRequest(
+                TASK_ID,
+                newName,
+                newDescription
+        );
 
+        // when
         restTemplate.put(url, toUpdate);
 
         // then
