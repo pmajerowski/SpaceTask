@@ -54,11 +54,12 @@ class TaskControllerTest extends MongoTest {
 
     @Test
     void shouldGetTaskById() {
-        // when
+        // given
         String url = UriComponentsBuilder.fromUriString("http://localhost:" + port + "/tasks")
                 .queryParam("taskId", TASK_ID)
                 .toUriString();
 
+        // when
         Task result = restTemplate.getForObject(url, Task.class);
 
         // then
@@ -86,6 +87,27 @@ class TaskControllerTest extends MongoTest {
 
     @Test
     void shouldUpdateTask() {
-        //testing github actions
+        // given
+        String url = UriComponentsBuilder.fromUriString("http://localhost:" + port + "/tasks")
+                .queryParam("taskId", TASK_ID)
+                .toUriString();
+        String newName = "test updated name";
+        String newDescription = "test updated description";
+
+        TestTaskUpdateRequest toUpdate = new TestTaskUpdateRequest(
+                TASK_ID,
+                newName,
+                newDescription
+        );
+
+        // when
+        restTemplate.put(url, toUpdate);
+
+        // then
+        List<TaskDocument> tasks = mongoTemplate.findAll(TaskDocument.class);
+        assertThat(tasks).hasSize(1);
+        assertThat(tasks)
+                .satisfiesOnlyOnce(taskDocument -> assertThat(taskDocument.getName()).isEqualTo(newName))
+                .satisfiesOnlyOnce(taskDocument -> assertThat(taskDocument.getDescription()).isEqualTo(newDescription));
     }
 }
