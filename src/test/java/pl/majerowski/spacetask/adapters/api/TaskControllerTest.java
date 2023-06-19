@@ -110,4 +110,19 @@ class TaskControllerTest extends MongoTest {
                 .satisfiesOnlyOnce(taskDocument -> assertThat(taskDocument.getName()).isEqualTo(newName))
                 .satisfiesOnlyOnce(taskDocument -> assertThat(taskDocument.getDescription()).isEqualTo(newDescription));
     }
+
+    @Test
+    void shouldDeleteTask() {
+        // given
+        String url = UriComponentsBuilder.fromUriString("http://localhost:" + port + "/tasks")
+                .queryParam("taskId", TASK_ID)
+                .toUriString();
+
+        // when
+        restTemplate.delete(url);
+
+        //then
+        List<TaskDocument> tasks = mongoTemplate.findAll(TaskDocument.class);
+        assertThat(tasks).hasSize(0);
+    }
 }
