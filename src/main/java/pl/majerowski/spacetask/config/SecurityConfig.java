@@ -19,36 +19,46 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.majerowski.spacetask.task.adapters.dao.UserDao;
 
-import java.util.Objects;
-
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Configuration
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDao userDao;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authProvider) throws Exception {
+
         http
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
+                .cors()
+                .disable()
+                .csrf()
+                .disable()
+
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
                 .and()
-                .authenticationProvider(authenticationProvider())
+                .formLogin()
+                .disable()
+
+                .securityMatcher("/**")
+                .authorizeHttpRequests(registry -> registry
+                        .requestMatchers("/auth/**").permitAll()
+                )
+
+                .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
 

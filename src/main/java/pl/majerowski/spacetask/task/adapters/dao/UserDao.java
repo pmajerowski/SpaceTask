@@ -1,6 +1,5 @@
 package pl.majerowski.spacetask.task.adapters.dao;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,12 +16,12 @@ public class UserDao {
             new User(
                     "admin@admin.com",
                     "password",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                    Collections.emptyList()
             ),
             new User(
                     "user@user.com",
                     "password",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
+                    Collections.emptyList()
             )
     );
 
