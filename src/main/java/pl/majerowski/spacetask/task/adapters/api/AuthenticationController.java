@@ -1,6 +1,5 @@
 package pl.majerowski.spacetask.task.adapters.api;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,13 +13,18 @@ import pl.majerowski.spacetask.task.adapters.dao.UserDao;
 import pl.majerowski.spacetask.task.adapters.dto.AuthenticationRequest;
 
 @RestController
-@RequestMapping("/auth")
-@RequiredArgsConstructor
+@RequestMapping("/authenticate")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final UserDao userDao;
     private final JwtUtils jwtUtils;
+
+    public AuthenticationController(AuthenticationManager authenticationManager, UserDao userDao, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.userDao = userDao;
+        this.jwtUtils = jwtUtils;
+    }
 
     @PostMapping
     public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
@@ -29,7 +33,7 @@ public class AuthenticationController {
         );
         final UserDetails user = userDao.findUserByEmail(request.getEmail());
 
-        if(user != null) {
+        if (user != null) {
             return ResponseEntity.ok(jwtUtils.generateToken(user));
         }
 

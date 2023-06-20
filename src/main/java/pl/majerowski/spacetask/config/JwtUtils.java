@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtils {
 
-    private final String jwtSigningKey = "secret";
+    private final String jwtSigningKey = "secretsecretsecretsecretsecretsecretsecretsecretsecret";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -29,6 +29,7 @@ public class JwtUtils {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(jwtSigningKey).parseClaimsJws(token).getBody();
     }
@@ -43,7 +44,7 @@ public class JwtUtils {
     }
 
     public String generateToken(UserDetails userDetails, Map<String, Object> claims) {
-        return  createToken(claims, userDetails);
+        return createToken(claims, userDetails);
     }
 
     private String createToken(Map<String, Object> claims, UserDetails userDetails) {
