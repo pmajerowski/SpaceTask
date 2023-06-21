@@ -1,4 +1,4 @@
-package pl.majerowski.spacetask.config;
+package pl.majerowski.spacetask.task.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.majerowski.spacetask.task.auth.JwtAuthFilter;
 import pl.majerowski.spacetask.task.adapters.dao.UserDao;
 
 @EnableWebSecurity

@@ -3,12 +3,10 @@ package pl.majerowski.spacetask.task.adapters.api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pl.majerowski.spacetask.config.JwtUtils;
+import org.springframework.web.bind.annotation.*;
+import pl.majerowski.spacetask.task.auth.JwtUtils;
 import pl.majerowski.spacetask.task.adapters.dao.UserDao;
 import pl.majerowski.spacetask.task.adapters.dto.AuthenticationRequest;
 
@@ -38,5 +36,10 @@ public class AuthenticationController {
         }
 
         return ResponseEntity.status(400).body("An error occurred");
+    }
+
+    @GetMapping
+    public Boolean contextResponse() {
+        return SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
     }
 }

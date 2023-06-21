@@ -1,4 +1,4 @@
-package pl.majerowski.spacetask.config;
+package pl.majerowski.spacetask.task.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -53,7 +53,7 @@ public class JwtUtils {
                 .setSubject(userDetails.getUsername())
                 .claim("authorities", userDetails.getAuthorities())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(24)))
+                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1)))
                 .signWith(SignatureAlgorithm.HS256, jwtSigningKey).compact();
     }
 

@@ -1,4 +1,4 @@
-package pl.majerowski.spacetask.config;
+package pl.majerowski.spacetask.task.auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
