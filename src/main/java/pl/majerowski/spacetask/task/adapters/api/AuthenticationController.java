@@ -1,15 +1,20 @@
 package pl.majerowski.spacetask.task.adapters.api;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
-import pl.majerowski.spacetask.task.auth.JwtUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.majerowski.spacetask.task.adapters.dao.UserDao;
 import pl.majerowski.spacetask.task.adapters.dto.AuthenticationRequest;
+import pl.majerowski.spacetask.task.auth.JwtUtils;
 
 @RestController
 @RequestMapping("/authenticate")
@@ -26,16 +31,20 @@ public class AuthenticationController {
     }
 
     @PostMapping
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         final UserDetails user = userDao.findUserByEmail(request.getEmail());
 
-        if (user != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(user));
-        }
+        return ResponseEntity.ok(new AuthenticationResponse(jwtUtils.generateToken(user)));
+    }
 
-        return ResponseEntity.status(400).body("An error occurred");
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AuthenticationResponse {
+        private String token;
     }
 }
