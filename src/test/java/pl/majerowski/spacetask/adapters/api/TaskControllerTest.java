@@ -1,5 +1,4 @@
 package pl.majerowski.spacetask.adapters.api;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.majerowski.spacetask.MongoTest;
 import pl.majerowski.spacetask.task.adapters.api.TaskCreationRequest;
 import pl.majerowski.spacetask.task.adapters.taskdb.TaskDocument;
@@ -23,28 +24,30 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TaskControllerTest extends MongoTest {
 
+    private final static String USERNAME = "admin@admin.com";
+    private final static String PASSWORD = "$2a$12$N4p/PYnVJ9nnr2bV0eYOteJlcGJxox3N7M7J9akbQdeFM07asMOAq";
     private final static String TASK_ID = "6eb174occ";
-
+    private String jwtToken;
     @Value(value = "${local.server.port}")
     private int port;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
     private MongoTemplate mongoTemplate;
-
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @BeforeEach
-    void sampleData() {
-        Task task = new Task(
-                TASK_ID,
-                "test task",
-                "task to test",
-                TaskStatus.IN_PROGRESS,
-                Instant.now()
-        );
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
 
-        mongoTemplate.insert(TaskDocument.asDocument(task));
+    @BeforeEach
+    void authenticate() {
+        String authenticateUrl = "http://localhost:" + port + "/authenticate";
+        AuthRequest authRequest = new AuthRequest(USERNAME, PASSWORD);
+        ResponseEntity<AuthResponse> response = restTemplate.postForEntity(authenticateUrl, authRequest, AuthResponse.class);
+        jwtToken = response.getBody().getToken();
     }
 
     @AfterEach
