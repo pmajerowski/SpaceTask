@@ -16,23 +16,23 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/all")
+    @GetMapping(path = "/all", produces = "application/json")
     public List<Task> getAll() {
         return taskService.findAll();
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public Task getTaskById(@RequestParam String taskId) {
         return taskService.findById(taskId);
     }
 
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public void postTask(@RequestBody TaskCreationRequest taskCreationRequest) {
         Task task = taskCreationRequest.asDomain();
         taskService.insert(task);
     }
 
-    @PutMapping
+    @PutMapping(consumes = "application/json")
     public void updateTask(@RequestBody TaskUpdateRequest taskUpdateRequest) {
         Task task = taskUpdateRequest.asDomain();
         taskService.update(task);
