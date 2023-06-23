@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.majerowski.spacetask.MongoTest;
@@ -15,6 +17,14 @@ import pl.majerowski.spacetask.task.adapters.api.TaskCreationRequest;
 import pl.majerowski.spacetask.task.adapters.taskdb.TaskDocument;
 import pl.majerowski.spacetask.task.domain.model.Task;
 import pl.majerowski.spacetask.task.domain.model.TaskStatus;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.Instant;
 import java.util.List;
@@ -25,7 +35,8 @@ import static org.assertj.core.api.Assertions.*;
 class TaskControllerTest extends MongoTest {
 
     private final static String USERNAME = "admin@admin.com";
-    private final static String PASSWORD = "$2a$12$N4p/PYnVJ9nnr2bV0eYOteJlcGJxox3N7M7J9akbQdeFM07asMOAq";
+    private final static String PASSWORD = "$2a$12$xYgb.Z6vaDWDer.Dwi3k2eyMDfBOeDxtga6o1GlOC/OhQGMUhQA/W";
+//    private final static String PASSWORD = "password";
     private final static String TASK_ID = "6eb174occ";
     private String jwtToken;
     @Value(value = "${local.server.port}")
@@ -45,9 +56,25 @@ class TaskControllerTest extends MongoTest {
     @BeforeEach
     void authenticate() {
         String authenticateUrl = "http://localhost:" + port + "/authenticate";
-        AuthRequest authRequest = new AuthRequest(USERNAME, PASSWORD);
-        ResponseEntity<AuthResponse> response = restTemplate.postForEntity(authenticateUrl, authRequest, AuthResponse.class);
-        jwtToken = response.getBody().getToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("username", USERNAME);
+        body.add("password", PASSWORD);
+
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
+
+        ResponseEntity<AuthResponse> response = restTemplate.exchange(
+                authenticateUrl,
+                HttpMethod.POST,
+                requestEntity,
+                AuthResponse.class
+        );
+
+        AuthResponse authResponse = response.getBody();
+        jwtToken = authResponse.getToken();
     }
 
     @AfterEach
