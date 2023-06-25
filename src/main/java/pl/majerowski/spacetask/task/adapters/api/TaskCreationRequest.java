@@ -17,7 +17,7 @@ public class TaskCreationRequest {
     private String name;
     private String description;
 
-    public Task asDomain() {
-        return new Task (null, this.name, this.description, TaskStatus.TO_DO, Instant.now());
+    public Task asDomain(String email) {
+        return new Task(null, email, this.name, this.description, TaskStatus.TO_DO, Instant.now());
     }
 }

@@ -11,5 +11,7 @@ import java.util.List;
 @Repository
 public interface TaskMongoRepository extends MongoRepository<TaskDocument, String> {
 
+    List<TaskDocument> findAllByEmail(String email);
+
 
 }

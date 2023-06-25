@@ -12,6 +12,7 @@ import java.time.Instant;
 public class Task {
 
     private String id;
+    private String email;
     private String name;
     private String description;
     private TaskStatus status;

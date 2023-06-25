@@ -25,6 +25,14 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
+    public List<Task> findAllByEmail(String email) {
+        return taskMongoRepository.findAllByEmail(email)
+                .stream()
+                .map(TaskDocument::asDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Task findById(String taskId) {
         return taskMongoRepository.findById(taskId).map(TaskDocument::asDomain).orElseThrow();
     }

@@ -38,6 +38,7 @@ class TaskControllerTest extends MongoTest {
     void sampleData() {
         Task task = new Task(
                 TASK_ID,
+                "admin@admin.com",
                 "test task",
                 "task to test",
                 TaskStatus.IN_PROGRESS,
