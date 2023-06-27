@@ -1,11 +1,15 @@
 package pl.majerowski.spacetask.user.domain;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@AllArgsConstructor
 public class AppUser implements UserDetails {
+
+    private String id;
     private String email;
     private String name;
     private String password;
@@ -16,9 +20,12 @@ public class AppUser implements UserDetails {
     private boolean enabled;
 
 
+    public String getId() {
+        return id;
+    }
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+    public String getUsername() {
+        return email;
     }
 
     public String getName() {
@@ -31,8 +38,8 @@ public class AppUser implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return email;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
     }
 
     @Override
