@@ -1,7 +1,6 @@
 package pl.majerowski.spacetask.user.domain.ports;
 
 import org.springframework.stereotype.Service;
-import pl.majerowski.spacetask.task.domain.model.Task;
 import pl.majerowski.spacetask.user.domain.model.AppUser;
 
 import java.util.List;
@@ -15,8 +14,8 @@ public final class AppUserService {
         this.appUserRepository = appUserRepository;
     }
 
-    public List<AppUser> findAllByEmail(String email) {
-        return appUserRepository.findAllByEmail(email);
+    public AppUser findByEmail(String email) {
+        return appUserRepository.findByEmail(email);
     }
 
     public AppUser findById(String appUserId) {

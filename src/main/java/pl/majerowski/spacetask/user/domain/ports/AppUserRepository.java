@@ -6,7 +6,7 @@ import pl.majerowski.spacetask.user.domain.model.AppUser;
 import java.util.List;
 
 public interface AppUserRepository {
-    List<AppUser> findAllByEmail(String email);
+    AppUser findByEmail(String email);
 
     AppUser findById(String appUserId);
 
