@@ -1,4 +1,4 @@
-package pl.majerowski.spacetask.user.domain;
+package pl.majerowski.spacetask.user.domain.model;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

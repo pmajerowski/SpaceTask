@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
-import pl.majerowski.spacetask.user.domain.AppUser;
+import pl.majerowski.spacetask.user.domain.model.AppUser;
 
 import java.util.Collection;
 
