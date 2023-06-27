@@ -21,13 +21,20 @@ public class UserController {
         return appUserService.findByEmail(userEmail);
     }
 
-    @GetMapping(produces = "application/json")
-    public AppUser getUserById(@RequestParam String userId) {
-        return appUserService.findByEmail(userId);
-    }
+//    @GetMapping(produces = "application/json")
+//    public AppUser getUserById(@RequestParam String userId) {
+//        return appUserService.findByEmail(userId);
+//    }
 
     @PostMapping(consumes = "application/json")
     public void postUser(@RequestBody AppUserCreationRequest appUserCreationRequest) {
+        AppUser appUser = appUserCreationRequest.asDomain();
+        appUserService.insert(appUser);
+    }
 
+    @PutMapping(consumes = "application/json")
+    public void updateUser(@RequestBody UserUpdateRequest userUpdateRequest) {
+        AppUser appUser = userUpdateRequest.asDomain();
+        appUserService.update(appUser);
     }
 }

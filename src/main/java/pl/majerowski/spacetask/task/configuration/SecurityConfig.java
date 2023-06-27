@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry ->
                                 authorizationManagerRequestMatcherRegistry
-                                        .requestMatchers("/authenticate")
+                                        .requestMatchers("/authenticate", "/users")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated()
