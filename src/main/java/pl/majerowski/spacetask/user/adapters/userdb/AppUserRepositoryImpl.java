@@ -17,11 +17,8 @@ public class AppUserRepositoryImpl implements AppUserRepository {
     }
 
     @Override
-    public List<AppUser> findAllByEmail(String email) {
-        return appUserMongoRepository.findAllByEmail(email)
-                .stream()
-                .map(AppUserDocument::asDomain)
-                .collect(Collectors.toList());
+    public AppUser findByEmail(String email) {
+        return AppUserDocument.asDomain(appUserMongoRepository.findByEmail(email));
 
     }
 

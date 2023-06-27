@@ -6,5 +6,5 @@ import pl.majerowski.spacetask.user.domain.model.AppUser;
 import java.util.List;
 
 public interface AppUserMongoRepository extends MongoRepository<AppUserDocument, String> {
-    List<AppUserDocument> findAllByEmail(String email);
+    AppUserDocument findByEmail(String email);
 }
