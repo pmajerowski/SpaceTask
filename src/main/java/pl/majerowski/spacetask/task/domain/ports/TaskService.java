@@ -18,6 +18,10 @@ public final class TaskService {
         return taskRepository.findAll();
     }
 
+    public List<Task> findAllByEmail(String email) {
+        return taskRepository.findAllByEmail(email);
+    }
+
     public Task findById(String taskId) {
         return taskRepository.findById(taskId);
     }

@@ -14,9 +14,10 @@ class TaskUpdateRequest {
     private TaskStatus status;
     private Instant timestamp;
 
-    public Task asDomain() {
+    public Task asDomain(String email) {
         return new Task(
                 this.id,
+                email,
                 this.name,
                 this.description,
                 this.status,

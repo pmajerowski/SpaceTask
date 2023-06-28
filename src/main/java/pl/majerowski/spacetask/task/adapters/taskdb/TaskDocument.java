@@ -16,6 +16,7 @@ public class TaskDocument {
 
     @Id
     private String id;
+    private String email;
     private String name;
     private String description;
     private TaskStatus status;
@@ -24,6 +25,7 @@ public class TaskDocument {
     public static Task asDomain(TaskDocument taskDocument) {
         return new Task(
                 taskDocument.id,
+                taskDocument.email,
                 taskDocument.name,
                 taskDocument.description,
                 taskDocument.status,
@@ -34,6 +36,7 @@ public class TaskDocument {
     public static TaskDocument asDocument(Task task) {
         return new TaskDocument(
                 task.getId(),
+                task.getEmail(),
                 task.getName(),
                 task.getDescription(),
                 task.getStatus(),

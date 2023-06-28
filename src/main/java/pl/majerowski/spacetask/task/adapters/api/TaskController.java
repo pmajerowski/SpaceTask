@@ -1,5 +1,6 @@
 package pl.majerowski.spacetask.task.adapters.api;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.majerowski.spacetask.task.domain.model.Task;
 import pl.majerowski.spacetask.task.domain.ports.TaskService;
@@ -16,30 +17,37 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/all")
+    @GetMapping(path = "/all", produces = "application/json")
     public List<Task> getAll() {
-        return taskService.findAll();
+        String email = getUserEmail();
+        return taskService.findAllByEmail(email);
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public Task getTaskById(@RequestParam String taskId) {
         return taskService.findById(taskId);
     }
 
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public void postTask(@RequestBody TaskCreationRequest taskCreationRequest) {
-        Task task = taskCreationRequest.asDomain();
+        String email = getUserEmail();
+        Task task = taskCreationRequest.asDomain(email);
         taskService.insert(task);
     }
 
-    @PutMapping
+    @PutMapping(consumes = "application/json")
     public void updateTask(@RequestBody TaskUpdateRequest taskUpdateRequest) {
-        Task task = taskUpdateRequest.asDomain();
+        String email = getUserEmail();
+        Task task = taskUpdateRequest.asDomain(email);
         taskService.update(task);
     }
 
     @DeleteMapping
     public void deleteTask(@RequestParam String taskId) {
         taskService.delete(taskId);
+    }
+
+    private static String getUserEmail() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

@@ -8,6 +8,8 @@ public interface TaskRepository {
 
     List<Task> findAll();
 
+    List<Task> findAllByEmail(String email);
+
     Task findById(String taskId);
 
     void insert(Task task);
