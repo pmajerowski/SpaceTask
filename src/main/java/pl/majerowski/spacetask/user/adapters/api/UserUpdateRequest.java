@@ -1,5 +1,6 @@
 package pl.majerowski.spacetask.user.adapters.api;
 
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import pl.majerowski.spacetask.user.domain.model.AppUser;
@@ -7,6 +8,7 @@ import pl.majerowski.spacetask.user.domain.model.AppUser;
 import java.util.Collection;
 
 @Setter
+@Getter
 public class UserUpdateRequest {
     private String id;
     private String username;

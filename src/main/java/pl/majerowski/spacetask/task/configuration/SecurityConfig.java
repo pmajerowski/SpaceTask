@@ -16,8 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.majerowski.spacetask.task.adapters.dao.UserDao;
 import pl.majerowski.spacetask.task.auth.JwtAuthFilter;
+import pl.majerowski.spacetask.user.domain.ports.AppUserService;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,7 +25,6 @@ import pl.majerowski.spacetask.task.auth.JwtAuthFilter;
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
-    private final UserDao userDao;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -75,7 +74,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return userDao::findUserByEmail;
+    public UserDetailsService userDetailsService(AppUserService appUserService) {
+        return appUserService::findByEmail;
     }
 }
