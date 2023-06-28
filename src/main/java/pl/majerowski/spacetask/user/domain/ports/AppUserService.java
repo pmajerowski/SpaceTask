@@ -33,4 +33,8 @@ public final class AppUserService {
     public void update(AppUser appUser) {
         appUserRepository.update(appUser);
     }
+
+    public List<AppUser> findAllUsers() {
+        return appUserRepository.findAll();
+    }
 }

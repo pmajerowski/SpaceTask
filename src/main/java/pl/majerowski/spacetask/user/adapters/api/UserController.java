@@ -26,6 +26,11 @@ public class UserController {
 //        return appUserService.findByEmail(userId);
 //    }
 
+    @GetMapping(path = "/all", produces = "application/json")
+    public List<AppUser> getAllUsers() {
+        return appUserService.findAllUsers();
+    }
+
     @PostMapping(consumes = "application/json")
     public void postUser(@RequestBody AppUserCreationRequest appUserCreationRequest) {
         AppUser appUser = appUserCreationRequest.asDomain();

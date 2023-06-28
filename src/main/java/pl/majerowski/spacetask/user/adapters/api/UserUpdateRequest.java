@@ -9,25 +9,25 @@ import java.util.Collection;
 @Setter
 public class UserUpdateRequest {
     private String id;
-    private String email;
+    private String username;
     private String name;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
-    private boolean accountActive;
-    private boolean accountUnlocked;
-    private boolean credentialsActive;
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
     private boolean enabled;
 
     public AppUser asDomain() {
         return new AppUser(
                 this.id,
-                this.email,
+                this.username,
                 this.name,
                 this.password,
                 this.authorities,
-                this.accountActive,
-                this.accountUnlocked,
-                this.credentialsActive,
+                this.accountNonExpired,
+                this.accountNonLocked,
+                this.credentialsNonExpired,
                 this.enabled
         );
     }

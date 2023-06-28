@@ -41,4 +41,9 @@ public class AppUserRepositoryImpl implements AppUserRepository {
     public void update(AppUser appUser) {
         appUserMongoRepository.save(AppUserDocument.asDocument(appUser));
     }
+
+    @Override
+    public List<AppUser> findAll() {
+        return appUserMongoRepository.findAll().stream().map(AppUserDocument::asDomain).collect(Collectors.toList());
+    }
 }

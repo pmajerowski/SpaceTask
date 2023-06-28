@@ -15,4 +15,6 @@ public interface AppUserRepository {
     void delete(String appUserId);
 
     void update(AppUser appUser);
+
+    List<AppUser> findAll();
 }
