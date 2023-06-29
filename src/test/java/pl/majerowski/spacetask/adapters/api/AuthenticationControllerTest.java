@@ -66,6 +66,8 @@ public class AuthenticationControllerTest extends MongoTest {
 
     @Test
     public void shouldReturnValidJwtFromAuthenticateEndpoint() {
+
+        // given
         String password = "password";
 
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(USER_EMAIL, password);
@@ -75,7 +77,7 @@ public class AuthenticationControllerTest extends MongoTest {
 
         HttpEntity<AuthenticationRequest> requestEntity = new HttpEntity<>(authenticationRequest, headers);
 
-
+        // when
         AuthenticationResponse response = restTemplate.exchange(
                 "http://localhost:" + port + "/authenticate",
                 HttpMethod.POST,
@@ -83,9 +85,10 @@ public class AuthenticationControllerTest extends MongoTest {
                 AuthenticationResponse.class
         ).getBody();
 
+        // then
         assertThat(response).isNotNull();
         assertThat(response.getToken()).isNotEmpty();
-
+        assertThat(response.getToken().split("\\.")).hasSize(3);
     }
 
 }
