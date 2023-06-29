@@ -1,5 +1,6 @@
 package pl.majerowski.spacetask.adapters.api;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.majerowski.spacetask.MongoTest;
 import pl.majerowski.spacetask.task.adapters.dto.AuthenticationRequest;
+import pl.majerowski.spacetask.task.adapters.taskdb.TaskDocument;
 import pl.majerowski.spacetask.user.adapters.userdb.AppUserDocument;
 import pl.majerowski.spacetask.user.domain.model.AppUser;
 
@@ -56,6 +58,11 @@ public class AuthenticationControllerTest extends MongoTest {
         mongoTemplate.insert(AppUserDocument.asDocument(appUser));
     }
 
+    @AfterEach
+    void cleanup() {
+        mongoTemplate.dropCollection(AppUserDocument.class);
+    }
+
     @Test
     public void shouldReturnValidJwtFromAuthenticateEndpoint() {
         String password = "password";
@@ -66,6 +73,7 @@ public class AuthenticationControllerTest extends MongoTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<AuthenticationRequest> requestEntity = new HttpEntity<>(authenticationRequest, headers);
+
 
         AuthenticationResponse response = restTemplate.exchange(
                 "http://localhost:" + port + "/authenticate",
