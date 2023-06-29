@@ -1,5 +1,6 @@
 package pl.majerowski.spacetask.adapters.api;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,10 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.majerowski.spacetask.MongoTest;
 import pl.majerowski.spacetask.task.adapters.dto.AuthenticationRequest;
@@ -70,12 +68,7 @@ public class AuthenticationControllerTest extends MongoTest {
         // given
         String password = "password";
 
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest(USER_EMAIL, password);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<AuthenticationRequest> requestEntity = new HttpEntity<>(authenticationRequest, headers);
+        HttpEntity<AuthenticationRequest> requestEntity = buildRequest(password);
 
         // when
         AuthenticationResponse response = restTemplate.exchange(
@@ -89,6 +82,37 @@ public class AuthenticationControllerTest extends MongoTest {
         assertThat(response).isNotNull();
         assertThat(response.getToken()).isNotEmpty();
         assertThat(response.getToken().split("\\.")).hasSize(3);
+    }
+
+    @Test
+    public void shouldReturnForbiddenGivenWrongCredentials() {
+
+        // given
+        String invalidPassword = "password234";
+
+        HttpEntity<AuthenticationRequest> requestEntity = buildRequest(invalidPassword);
+
+        // when
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/authenticate",
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
+
+        // then
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode().value()).isEqualTo(403);
+
+    }
+
+    private static HttpEntity<AuthenticationRequest> buildRequest(String password) {
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest(USER_EMAIL, password);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        return new HttpEntity<>(authenticationRequest, headers);
     }
 
 }
