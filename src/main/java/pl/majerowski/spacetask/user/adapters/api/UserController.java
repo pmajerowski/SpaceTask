@@ -24,11 +24,6 @@ public class UserController {
         return appUserService.findByEmail(userEmail);
     }
 
-//    @GetMapping(produces = "application/json")
-//    public AppUser getUserById(@RequestParam String userId) {
-//        return appUserService.findByEmail(userId);
-//    }
-
     @GetMapping(path = "/all", produces = "application/json")
     public List<AppUser> getAllUsers() {
         return appUserService.findAllUsers();
@@ -50,5 +45,10 @@ public class UserController {
         );
         AppUser appUser = userUpdateRequest.asDomain();
         appUserService.update(appUser);
+    }
+
+    @DeleteMapping
+    public void deleteUserById(@RequestParam String userId) {
+        appUserService.delete(userId);
     }
 }
